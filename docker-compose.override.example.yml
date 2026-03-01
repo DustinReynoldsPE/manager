@@ -7,3 +7,6 @@ services:
       # Mount your projects directory for ticket access
       # Use the same path inside/outside so config.json paths work
       - /path/to/your/projects:/path/to/your/projects
+
+      # Persist server logs on the host (dev mode writes to /app/logs/manager.log)
+      - /path/to/your/logs:/app/logs

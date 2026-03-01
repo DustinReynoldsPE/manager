@@ -80,9 +80,6 @@ Logs:
 
 Prerequisites: `claude` and `tk` on PATH, `~/code/learnings` repo cloned.
 
-> **Migration:** If you have the old `com.smacbeth.learnings-nightly` label loaded, unload it:
-> `launchctl bootout gui/$(id -u)/com.smacbeth.learnings-nightly`
-
 ### Environment Variables
 
 Copy the example env file:

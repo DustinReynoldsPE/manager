@@ -3,7 +3,7 @@ FROM oven/bun:1-alpine
 ARG TK_VERSION=2.4.0
 
 # Install runtime dependencies
-RUN apk add --no-cache bash ripgrep jq coreutils git curl
+RUN apk add --no-cache bash ripgrep jq coreutils git curl tmux
 
 # Install tk CLI from GitHub release
 RUN ARCH=$(uname -m) && \

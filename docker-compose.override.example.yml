@@ -4,9 +4,15 @@
 services:
   dev:
     volumes:
-      # Mount your projects directory for ticket access
-      # Use the same path inside/outside so config.json paths work
+      # Mount your projects directory for ticket access and git status.
+      # Use the same path inside/outside so config.json paths work.
       - /path/to/your/projects:/path/to/your/projects
 
-      # Persist server logs on the host (dev mode writes to /app/logs/manager.log)
-      - /path/to/your/logs:/app/logs
+      # Learnings repo (read by /api/activity, /api/learnings, /api/patterns).
+      # Populated on the host by the nightly pipeline scripts — not by the container.
+      - ~/code/learnings:/home/appuser/code/learnings
+
+# Note on the service manager:
+# Services are launched via tmux inside the container. Only services whose commands
+# rely solely on tools available in the image (bash, git, bun) will work. Services
+# that require project-specific runtimes or dependencies must be run on the host.

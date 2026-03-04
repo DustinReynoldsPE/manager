@@ -7,7 +7,6 @@ LAUNCH_DIR="$HOME_DIR/Library/LaunchAgents"
 LOG_DIR="$HOME_DIR/Library/Logs/Manager"
 SESSION_LABEL="com.manager.session-pipeline"
 ANALYSIS_LABEL="com.manager.analysis-pipeline"
-OLD_LABEL="com.smacbeth.learnings-nightly"
 
 ACTION="${1:-}"
 
@@ -104,15 +103,6 @@ check_prerequisites() {
     return $warnings
 }
 
-check_old_label() {
-    local uid
-    uid=$(id -u)
-    if launchctl print "gui/$uid/$OLD_LABEL" &>/dev/null; then
-        echo "  Warning: old label '$OLD_LABEL' is still loaded."
-        echo "  Run: launchctl bootout gui/$uid/$OLD_LABEL"
-    fi
-}
-
 load_service() {
     local label="$1"
     local uid
@@ -133,7 +123,6 @@ unload_service() {
 install_sessions() {
     echo "Checking prerequisites..."
     check_prerequisites || true
-    check_old_label
 
     mkdir -p "$LAUNCH_DIR" "$LOG_DIR"
 
@@ -151,7 +140,6 @@ install_sessions() {
 install_all() {
     echo "Checking prerequisites..."
     check_prerequisites || true
-    check_old_label
 
     mkdir -p "$LAUNCH_DIR" "$LOG_DIR"
 
@@ -228,13 +216,6 @@ list_status() {
             fi
         fi
     done
-
-    # Check for legacy label
-    if launchctl print "gui/$uid/$OLD_LABEL" &>/dev/null; then
-        echo ""
-        printf "  ${R}●${N} ${B}%-20s${N} ${R}legacy — should be removed${N}\n" "$OLD_LABEL"
-        printf "    run: launchctl bootout gui/$uid/$OLD_LABEL\n"
-    fi
 }
 
 case "$ACTION" in
@@ -259,7 +240,6 @@ case "$ACTION" in
         echo ""
         echo "Prerequisites:"
         check_prerequisites || true
-        check_old_label
         ;;
     *)
         echo "Usage: $(basename "$0") [--install|--install-sessions|--uninstall|--list]"

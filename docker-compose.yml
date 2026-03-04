@@ -9,6 +9,8 @@ services:
 
     environment:
       - NODE_ENV=development
+      # Allow git to traverse across mounted filesystems (e.g. /Volumes/OWC)
+      - GIT_DISCOVER_ACROSS_FILESYSTEM=1
       # Pass through from host env (for secrets)
       - ANTHROPIC_API_KEY
       - DATABASE_URL
@@ -27,6 +29,9 @@ services:
       - ./vitest.config.ts:/app/vitest.config.ts:ro
       - ./tsconfig.json:/app/tsconfig.json:ro
       - ./config.json:/app/config.json
+
+      # Persist server and service logs on the host
+      - ./logs:/app/logs
 
       # Keep node_modules inside container (not from host)
       - node_modules:/app/node_modules
